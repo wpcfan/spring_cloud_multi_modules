@@ -2,11 +2,6 @@ server:
   port: 8888
 
 management:
-  endpoints:
-    web:
-      base-path: "/admin"
-      exposure:
-        include: "*"
   endpoint:
     env:
       post:
@@ -26,6 +21,8 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 spring:
+  application:
+    name: config-server
   cloud:
     config:
       server:
@@ -34,4 +31,3 @@ spring:
           username: peng.wong
           password: Wp770521
           basedir: spring_cloud_multi_modules
-          default-label: main
