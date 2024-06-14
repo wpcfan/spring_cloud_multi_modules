@@ -28,6 +28,4 @@ spring:
       server:
         git:
           uri: https://gitee.com/peng.wong/service-configurations.git
-          username: peng.wong
-          password: Wp770521
           basedir: spring_cloud_multi_modules
