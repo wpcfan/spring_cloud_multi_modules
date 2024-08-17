@@ -2,7 +2,12 @@
 .gradle
 .kotlin
 .idea
+*.iml
 
 # Ignore Gradle build output directory
 build
 bin
+out
+
+# Ignore maven build output directory
+target
