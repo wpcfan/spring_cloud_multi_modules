@@ -1,0 +1,15 @@
+spring:
+    flyway:
+        enabled: false
+        baseline-on-migrate: true
+        locations: classpath:sql/h2
+        clean-disabled: false
+        clean-on-validation-error: true
+    jpa:
+        generate-ddl: false
+        hibernate:
+            ddl-auto: create-drop
+    h2:
+        console:
+            enabled: true
+            path: /h2-console
