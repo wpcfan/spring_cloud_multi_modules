@@ -1,5 +1,6 @@
 package com.twigcodes.authserver.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.twigcodes.authserver.utils.Constants;
 import com.twigcodes.authserver.validators.email.ValidEmail;
 import jakarta.persistence.*;
@@ -8,6 +9,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -18,8 +20,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_profiles")
+@Table(name = "uaa_user_profiles")
 public class UserProfile implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -42,6 +45,7 @@ public class UserProfile implements Serializable {
     @Column(length = 254, unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

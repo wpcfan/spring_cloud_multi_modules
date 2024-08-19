@@ -12,6 +12,9 @@ spring:
     password:
   flyway:
     enabled: false
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
   jpa:
     generate-ddl: true
     hibernate:
@@ -40,3 +43,11 @@ logging:
         commons: info
     com:
         twigcodes: debug
+app:
+  sms:
+    provider: ali
+    access-key-id: ${SMS_ACCESS_KEY_ID}
+    access-key-secret: ${SMS_ACCESS_KEY_SECRET}
+    endpoint: ${SMS_ENDPOINT}
+    sign-name: ${SMS_SIGN_NAME}
+    template-code: ${SMS_TEMPLATE_CODE}

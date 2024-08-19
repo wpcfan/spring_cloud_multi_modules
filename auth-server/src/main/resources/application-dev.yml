@@ -1,6 +1,6 @@
 spring:
     flyway:
-        enabled: false
+        enabled: true
         baseline-on-migrate: true
         locations: classpath:sql/h2
         clean-disabled: false
@@ -8,7 +8,7 @@ spring:
     jpa:
         generate-ddl: false
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: none
     h2:
         console:
             enabled: true

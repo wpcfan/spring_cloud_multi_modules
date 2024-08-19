@@ -1,5 +1,6 @@
 package com.twigcodes.authserver.entities;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,9 +16,12 @@ import org.hibernate.proxy.HibernateProxy;
 @Getter
 @Setter
 @Entity
-@Table(name = "authorization_consents")
+@Table(name = "uaa_authorization_consents")
 @IdClass(AuthorizationConsent.AuthorizationConsentId.class)
-public class AuthorizationConsent {
+public class AuthorizationConsent implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     private String registeredClientId;
     @Id

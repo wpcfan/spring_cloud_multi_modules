@@ -1,12 +1,11 @@
 package com.twigcodes.authserver.entities;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
@@ -15,8 +14,11 @@ import org.hibernate.proxy.HibernateProxy;
 @Getter
 @Setter
 @Entity
-@Table(name = "clients")
-public class Client {
+@Table(name = "uaa_clients")
+public class Client implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     private String id;
     private String clientId;

@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -18,8 +19,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "permissions")
+@Table(name = "uaa_permissions")
 public class Permission implements GrantedAuthority, Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

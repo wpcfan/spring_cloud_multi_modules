@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,8 +30,9 @@ import java.util.stream.Stream;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "uaa_users")
 public class User implements UserDetails, Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -68,6 +70,13 @@ public class User implements UserDetails, Serializable {
     @Column(name = "credentials_non_expired", nullable = false)
     private boolean credentialsNonExpired = true;
 
+    @Builder.Default
+    @NotNull
+    @Column(name = "mfa_enabled", nullable = false)
+    private boolean mfaEnabled = false;
+
+    @Column(name = "totp_secret", length = 16)
+    private String totpSecret;
 
     @Builder.Default
     @JsonIgnore
@@ -79,7 +88,7 @@ public class User implements UserDetails, Serializable {
             inverseJoinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "id")})
     private Set<Group> groups = new HashSet<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserProfile userProfile;
 
     @Override

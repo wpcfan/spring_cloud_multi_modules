@@ -12,6 +12,7 @@ import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -24,8 +25,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "roles")
+@Table(name = "uaa_roles")
 public class Role implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
