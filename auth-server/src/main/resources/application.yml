@@ -51,3 +51,6 @@ app:
     endpoint: ${SMS_ENDPOINT}
     sign-name: ${SMS_SIGN_NAME}
     template-code: ${SMS_TEMPLATE_CODE}
+server:
+  address: 0.0.0.0
+  port: 9999

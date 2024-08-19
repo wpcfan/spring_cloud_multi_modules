@@ -50,10 +50,6 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final SmsCodeService smsCodeService;
-    private final TotpService totpService;
-    private final JpaUserDetailService userDetailsService;
-
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -75,43 +71,6 @@ public class SecurityConfig {
                         .jwt(Customizer.withDefaults()));
 
         return http.build();
-    }
-
-    @Bean
-    @Order(2)
-    public SecurityFilterChain defaultSecurityChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(
-                                PathRequest.toStaticResources().atCommonLocations(),
-                                PathRequest.toH2Console(),
-                                antMatcher("/swagger-ui/**"),
-                                antMatcher("/swagger-ui.html"),
-                                antMatcher("/v3/api-docs/**")
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(smsCodeAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .authenticationProvider(smsCodeAuthenticationProvider())
-                .addFilterBefore(mfaAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .rememberMe(Customizer.withDefaults())
-                .csrf(csrf -> csrf
-                        // Disabling CSRF protection for the H2 Console
-                        .ignoringRequestMatchers(PathRequest.toH2Console())
-                )
-                .headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
-
-        return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -148,67 +107,7 @@ public class SecurityConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .authorizationEndpoint("/oauth2/authorize")
-                .tokenEndpoint("/oauth2/token")
-                .tokenRevocationEndpoint("/oauth2/revoke")
-                .tokenIntrospectionEndpoint("/oauth2/introspect")
-                .deviceAuthorizationEndpoint("/oauth2/device")
-                .issuer("https://auth-server")
-                .jwkSetEndpoint("/oauth2/jwks")
-                .oidcUserInfoEndpoint("/userinfo")
-                .oidcLogoutEndpoint("/logout")
-                .oidcClientRegistrationEndpoint("/client-registration")
                 .build();
-    }
-
-    @Bean
-    public SmsCodeAuthenticationFilter smsCodeAuthenticationFilter() {
-        SmsCodeAuthenticationFilter filter = new SmsCodeAuthenticationFilter();
-        filter.setAuthenticationManager(authenticationManager());
-        return filter;
-    }
-
-    @Bean
-    public SmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
-        return new SmsCodeAuthenticationProvider(smsCodeService);
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager() {
-        return new ProviderManager(customAuthenticationProviders());
-    }
-
-    @Bean
-    public MfaAuthenticationFilter mfaAuthenticationFilter() {
-        MfaAuthenticationFilter filter = new MfaAuthenticationFilter(totpService);
-        filter.setAuthenticationManager(authenticationManager());
-        return filter;
-    }
-
-    @Bean
-    public MfaAuthenticationProvider mfaAuthenticationProvider() {
-        return new MfaAuthenticationProvider(
-                userDetailsService,
-                passwordEncoder(),
-                totpService
-        );
-    }
-
-    @Bean
-    public UsernamePasswordAndSmsMfaAuthenticationProvider usernamePasswordAndSmsMfaAuthenticationProvider(PasswordEncoder passwordEncoder) {
-        return new UsernamePasswordAndSmsMfaAuthenticationProvider(
-                userDetailsService,
-                passwordEncoder,
-                smsCodeService
-        );
-    }
-
-    private List<AuthenticationProvider> customAuthenticationProviders() {
-        List<AuthenticationProvider> providers = new ArrayList<>();
-        providers.add(smsCodeAuthenticationProvider());
-        providers.add(mfaAuthenticationProvider());
-        providers.add(usernamePasswordAndSmsMfaAuthenticationProvider(passwordEncoder()));
-        return providers;
     }
 }
 
