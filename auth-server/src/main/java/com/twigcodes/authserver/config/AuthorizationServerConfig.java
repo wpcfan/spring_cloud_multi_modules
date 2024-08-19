@@ -7,39 +7,25 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.twigcodes.authserver.repositories.AuthorizationConsentRepository;
 import com.twigcodes.authserver.repositories.AuthorizationRepository;
+import com.twigcodes.authserver.repositories.ClientRepository;
 import com.twigcodes.authserver.services.JpaOAuth2AuthorizationConsentService;
 import com.twigcodes.authserver.services.JpaOAuth2AuthorizationService;
 import com.twigcodes.authserver.services.JpaRegisteredClientRepository;
-import com.twigcodes.authserver.services.JpaUserDetailService;
-import com.twigcodes.authserver.services.mfa.MfaAuthenticationFilter;
-import com.twigcodes.authserver.services.mfa.MfaAuthenticationProvider;
-import com.twigcodes.authserver.services.mfa.TotpService;
-import com.twigcodes.authserver.services.sms.SmsCodeAuthenticationFilter;
-import com.twigcodes.authserver.services.sms.SmsCodeAuthenticationProvider;
-import com.twigcodes.authserver.services.sms.SmsCodeService;
-import com.twigcodes.authserver.services.smsmfa.UsernamePasswordAndSmsMfaAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.KeyPair;
@@ -48,16 +34,14 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.*;
 
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
-
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class AuthorizationServerConfig {
 
     private final AuthorizationConsentRepository authorizationConsentRepository;
-    private final JpaRegisteredClientRepository registeredClientRepository;
     private final AuthorizationRepository authorizationRepository;
+    private final ClientRepository clientRepository;
 
     @Bean
     @Order(1)
@@ -66,6 +50,7 @@ public class SecurityConfig {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
+
         http
                 // Redirect to the login page when not authenticated from the
                 // authorization endpoint
@@ -116,14 +101,21 @@ public class SecurityConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
+                .authorizationEndpoint("/oauth2/authorize")
+                .deviceAuthorizationEndpoint("/oauth2/device/authorize")
                 .build();
+    }
+
+    @Bean
+    public RegisteredClientRepository registeredClientRepository() {
+        return new JpaRegisteredClientRepository(clientRepository);
     }
 
     @Bean
     public JpaOAuth2AuthorizationConsentService jpaOAuth2AuthorizationConsentService() {
         return new JpaOAuth2AuthorizationConsentService(
                 authorizationConsentRepository,
-                registeredClientRepository
+                registeredClientRepository()
         );
     }
 
@@ -131,7 +123,7 @@ public class SecurityConfig {
     public JpaOAuth2AuthorizationService jpaOAuth2AuthorizationService() {
         return new JpaOAuth2AuthorizationService(
                 authorizationRepository,
-                registeredClientRepository
+                registeredClientRepository()
         );
     }
 }

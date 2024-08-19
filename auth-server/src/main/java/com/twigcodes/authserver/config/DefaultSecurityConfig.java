@@ -21,9 +21,12 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +53,13 @@ public class DefaultSecurityConfig {
                                 antMatcher("/swagger-ui/**"),
                                 antMatcher("/swagger-ui.html"),
                                 antMatcher("/v3/api-docs/**"),
-                                antMatcher("/assets")
+                                antMatcher("/assets"),
+                                antMatcher("/login")
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .permitAll()
                 )
                 .rememberMe(Customizer.withDefaults())
                 .csrf(csrf -> csrf
@@ -71,6 +74,16 @@ public class DefaultSecurityConfig {
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 
     @Bean
