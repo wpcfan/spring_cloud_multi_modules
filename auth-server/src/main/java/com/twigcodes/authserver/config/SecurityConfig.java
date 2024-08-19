@@ -5,6 +5,11 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.twigcodes.authserver.repositories.AuthorizationConsentRepository;
+import com.twigcodes.authserver.repositories.AuthorizationRepository;
+import com.twigcodes.authserver.services.JpaOAuth2AuthorizationConsentService;
+import com.twigcodes.authserver.services.JpaOAuth2AuthorizationService;
+import com.twigcodes.authserver.services.JpaRegisteredClientRepository;
 import com.twigcodes.authserver.services.JpaUserDetailService;
 import com.twigcodes.authserver.services.mfa.MfaAuthenticationFilter;
 import com.twigcodes.authserver.services.mfa.MfaAuthenticationProvider;
@@ -49,6 +54,10 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final AuthorizationConsentRepository authorizationConsentRepository;
+    private final JpaRegisteredClientRepository registeredClientRepository;
+    private final AuthorizationRepository authorizationRepository;
 
     @Bean
     @Order(1)
@@ -108,6 +117,22 @@ public class SecurityConfig {
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
                 .build();
+    }
+
+    @Bean
+    public JpaOAuth2AuthorizationConsentService jpaOAuth2AuthorizationConsentService() {
+        return new JpaOAuth2AuthorizationConsentService(
+                authorizationConsentRepository,
+                registeredClientRepository
+        );
+    }
+
+    @Bean
+    public JpaOAuth2AuthorizationService jpaOAuth2AuthorizationService() {
+        return new JpaOAuth2AuthorizationService(
+                authorizationRepository,
+                registeredClientRepository
+        );
     }
 }
 
