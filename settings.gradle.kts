@@ -8,4 +8,13 @@
  */
 
 rootProject.name = "Spring Cloud Multi Modules Project"
-include("service-a", "service-b", "eureka-server", "config-server", "gateway", "boot-admin", "auth-server")
+include(
+    "service-a",
+    "service-b",
+    "eureka-server",
+    "config-server",
+    "gateway",
+    "boot-admin",
+    "auth-server",
+    "cms"
+)
