@@ -1,13 +1,13 @@
 package com.twigcodes.cms.models.enumeration;
 
-public enum PageType {
+public enum TargetPage {
     Home("首页"),
     Category("分类页"),
     About("关于页"),;
 
     private final String value;
 
-    PageType(String value) {
+    TargetPage(String value) {
         this.value = value;
     }
 }

@@ -1,6 +1,6 @@
 package com.twigcodes.cms.models;
 
-import com.mooc.backend.constants.Constants;
+import com.twigcodes.cms.utils.Constants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -10,12 +10,12 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 
+@Schema(description = "区块配置")
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "区块配置")
 public class BlockConfig implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
