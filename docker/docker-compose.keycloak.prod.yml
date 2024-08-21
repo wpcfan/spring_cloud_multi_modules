@@ -1,0 +1,61 @@
+services:
+  mariadb:
+    image: mariadb:10.6.4
+    container_name: mariadb
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=keycloak
+      - MYSQL_USER=keycloak
+      - MYSQL_PASSWORD=keycloak_password
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    restart: always
+    networks:
+      - fxr
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.4
+    entrypoint: [
+      "/wait-for-it.sh",
+      "keycloak@keycloak_password:mariadb:3306",
+      "--",
+      "/opt/keycloak/bin/kc.sh",
+      "start",
+      "--import-realm",
+      "--db",
+      "mariadb",
+      "--db-schema",
+      "keycloak",
+      "--db-username",
+      "keycloak",
+      "--db-password",
+      "keycloak_password",
+      "--db-url-host",
+      "mariadb"
+    ]
+    container_name: keycloak
+    ports:
+      - 9999:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - JAVA_OPTS_KC_HEAP="-XX:MaxHeapFreeRatio=30 -XX:MaxRAMPercentage=65"
+    volumes:
+      - ./keycloak/themes:/opt/keycloak/themes
+      - ./keycloak/realms:/opt/keycloak/realms
+      - ./keycloak/import:/opt/keycloak/data/import
+      - ./wait-for-it.sh:/wait-for-it.sh
+    depends_on:
+      mariadb:
+        condition: service_started
+    networks:
+      - fxr
+
+networks:
+  fxr:
+    driver: bridge
+
+volumes:
+  mariadb_data:
+    driver: local

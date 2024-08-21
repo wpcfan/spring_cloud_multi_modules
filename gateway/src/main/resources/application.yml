@@ -16,6 +16,11 @@ spring:
               - Path=/service-b/**
             filters:
               - StripPrefix=1
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            jwk-set-uri: http://localhost:9999/auth/realms/fangxiaoer/protocol/openid-connect/certs
 
 server:
   address: 0.0.0.0
