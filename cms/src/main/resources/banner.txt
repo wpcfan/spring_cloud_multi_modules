@@ -16,4 +16,4 @@ ${AnsiColor.BRIGHT_YELLOW}
  #    #    ###         ####
      #      #            #
 ${AnsiColor.BRIGHT_BLUE}   :: Spring Boot ::        ${spring-boot.formatted-version}    ::  ${Ansi.DEFAULT}
-${AnsiColor.BRIGHT_BLUE}   :: UAA Server  ::        ${application.version}    ::  ${Ansi.DEFAULT}
+${AnsiColor.BRIGHT_BLUE}   :: CMS Server  ::        ${application.version}    ::  ${Ansi.DEFAULT}

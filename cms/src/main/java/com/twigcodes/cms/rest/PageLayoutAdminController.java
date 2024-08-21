@@ -39,10 +39,10 @@ public class PageLayoutAdminController {
         @RequestParam TargetPage targetPage,
         @RequestParam Platform platform,
         @RequestParam BlockType blockType,
-        @DateTimeFormat(pattern = "yyyyMMdd") @RequestParam(required = false) LocalDate startTimeFrom,
-        @DateTimeFormat(pattern = "yyyyMMdd") @RequestParam(required = false) LocalDate startTimeTo,
-        @DateTimeFormat(pattern = "yyyyMMdd") @RequestParam(required = false) LocalDate endTimeFrom,
-        @DateTimeFormat(pattern = "yyyyMMdd") @RequestParam(required = false) LocalDate endTimeTo,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate startTimeFrom,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate startTimeTo,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate endTimeFrom,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate endTimeTo,
         @ParameterObject Pageable pageable
     ) {
         val queryPageLayout = QueryPageLayout.builder()
