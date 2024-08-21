@@ -2,12 +2,12 @@ package com.twigcodes.cms.models.vm;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record PublishPageLayout(
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate startTime,
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate endTime
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime startTime,
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime endTime
 ) {
 }

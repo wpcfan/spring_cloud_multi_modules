@@ -11,6 +11,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.UUID;
 
 @Schema(description = "页面区块")
 @Jacksonized
@@ -24,7 +25,8 @@ public class PageBlock implements Comparable<PageBlock>, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
-    private Long id;
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
     private String title;
     private BlockType type;
     private Integer sort;

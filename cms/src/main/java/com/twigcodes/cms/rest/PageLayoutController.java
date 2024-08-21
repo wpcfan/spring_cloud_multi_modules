@@ -37,9 +37,6 @@ public class PageLayoutController {
         @RequestHeader(name = "platform") Platform platform
     ) {
         val now = LocalDateTime.now();
-
         return pageLayoutService.get(targetPage, platform, now);
     }
-
-
 }

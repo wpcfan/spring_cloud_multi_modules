@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Schema(description = "区块数据")
 @Jacksonized
@@ -21,7 +22,8 @@ public class PageBlockData implements Comparable<PageBlockData>, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
-    private String id;
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
     private Integer sort;
     private BlockData content;
 
