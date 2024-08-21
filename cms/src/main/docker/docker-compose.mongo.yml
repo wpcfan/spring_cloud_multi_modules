@@ -8,8 +8,6 @@ services:
       - mongo_data:/data/db
     restart: always
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=admin
       - MONGO_INITDB_DATABASE=fxr_cms
     networks:
       - fxr

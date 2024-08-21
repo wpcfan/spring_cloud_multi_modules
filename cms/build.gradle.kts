@@ -18,9 +18,6 @@ dependencies {
     implementation("com.qiniu:qiniu-java-sdk:$qiniuVersion")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("org.testcontainers:mysql")
     testImplementation("org.hamcrest:hamcrest-library")
     "developmentOnly"("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("com.h2database:h2")
-    runtimeOnly("com.mysql:mysql-connector-j")
 }
