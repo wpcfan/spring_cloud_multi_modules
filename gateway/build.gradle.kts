@@ -15,5 +15,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("com.github.dasniko:testcontainers-keycloak:$testContainerKeycloakVersion")
 }
