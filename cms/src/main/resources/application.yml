@@ -3,6 +3,9 @@ server:
 spring:
   application:
     name: cms
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/fxr_cms
 eureka:
   instance:
     hostname: localhost

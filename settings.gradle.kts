@@ -16,5 +16,6 @@ include(
     "gateway",
     "boot-admin",
     "auth-server",
-    "cms"
+    "cms",
+    "apidocs"
 )

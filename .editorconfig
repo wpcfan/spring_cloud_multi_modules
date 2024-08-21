@@ -1,0 +1,53 @@
+# EditorConfig is awesome: https://editorconfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+# Markdown
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+
+# Java and Kotlin files
+[*.{java,kt,kts}]
+indent_size = 4
+indent_style = space
+
+# Vue files
+[*.vue]
+indent_size = 2
+indent_style = space
+
+# JavaScript files (including in Vue and WeChat Mini Program)
+[*.{js,jsx,ts,tsx}]
+indent_size = 2
+indent_style = space
+
+# JSON files (including in Vue and WeChat Mini Program)
+[*.json]
+indent_size = 2
+indent_style = space
+
+# WeChat Mini Program WXML files
+[*.wxml]
+indent_size = 2
+indent_style = space
+
+# WeChat Mini Program WXSS files
+[*.wxss]
+indent_size = 2
+indent_style = space
+
+# YAML files (including CI/CD configuration files)
+[*.{yml,yaml}]
+indent_size = 2
+indent_style = space
