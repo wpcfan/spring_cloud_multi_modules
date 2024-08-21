@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: service-a
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${JWK_SET_URI:http://localhost:9999/auth/realms/fangxiaoer/protocol/openid-connect/certs}  #<1>
 management:
   endpoints:
     web:
