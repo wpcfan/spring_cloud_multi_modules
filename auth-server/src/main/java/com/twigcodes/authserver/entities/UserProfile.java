@@ -1,8 +1,8 @@
 package com.twigcodes.authserver.entities;
 
+import com.fangxiaoer.common.validators.email.ValidEmail;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.twigcodes.authserver.utils.Constants;
-import com.twigcodes.authserver.validators.email.ValidEmail;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

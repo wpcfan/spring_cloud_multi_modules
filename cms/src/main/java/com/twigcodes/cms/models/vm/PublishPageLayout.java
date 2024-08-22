@@ -1,6 +1,6 @@
 package com.twigcodes.cms.models.vm;
 
-import com.twigcodes.cms.validators.time.TimeComparison;
+import com.fangxiaoer.common.validators.time.TimeComparison;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.FutureOrPresent;
 import org.springframework.format.annotation.DateTimeFormat;
