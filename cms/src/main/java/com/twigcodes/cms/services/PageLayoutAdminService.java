@@ -284,4 +284,60 @@ public class PageLayoutAdminService {
             })
             .orElseThrow();
     }
+
+    public PageLayout moveBlockDataUp(String id, String blockId, String dataId) {
+        return pageLayoutRepository.findById(id)
+            .map(existingPageLayout -> {
+                existingPageLayout.getBlocks().stream()
+                    .filter(b -> b.getId().equals(blockId))
+                    .findFirst()
+                    .ifPresent(b -> {
+                        b.moveDataUp(dataId);
+                    });
+                return pageLayoutRepository.save(existingPageLayout);
+            })
+            .orElseThrow();
+    }
+
+    public PageLayout moveBlockDataDown(String id, String blockId, String dataId) {
+        return pageLayoutRepository.findById(id)
+            .map(existingPageLayout -> {
+                existingPageLayout.getBlocks().stream()
+                    .filter(b -> b.getId().equals(blockId))
+                    .findFirst()
+                    .ifPresent(b -> {
+                        b.moveDataDown(dataId);
+                    });
+                return pageLayoutRepository.save(existingPageLayout);
+            })
+            .orElseThrow();
+    }
+
+    public PageLayout moveBlockDataTop(String id, String blockId, String dataId) {
+        return pageLayoutRepository.findById(id)
+            .map(existingPageLayout -> {
+                existingPageLayout.getBlocks().stream()
+                    .filter(b -> b.getId().equals(blockId))
+                    .findFirst()
+                    .ifPresent(b -> {
+                        b.moveDataTop(dataId);
+                    });
+                return pageLayoutRepository.save(existingPageLayout);
+            })
+            .orElseThrow();
+    }
+
+    public PageLayout moveBlockDataBottom(String id, String blockId, String dataId) {
+        return pageLayoutRepository.findById(id)
+            .map(existingPageLayout -> {
+                existingPageLayout.getBlocks().stream()
+                    .filter(b -> b.getId().equals(blockId))
+                    .findFirst()
+                    .ifPresent(b -> {
+                        b.moveDataBottom(dataId);
+                    });
+                return pageLayoutRepository.save(existingPageLayout);
+            })
+            .orElseThrow();
+    }
 }

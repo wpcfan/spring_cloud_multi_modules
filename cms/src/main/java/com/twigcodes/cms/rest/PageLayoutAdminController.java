@@ -172,11 +172,11 @@ public class PageLayoutAdminController {
                         """
                     ),
                     @io.swagger.v3.oas.annotations.media.ExampleObject(
-                        name = "添加分类区块",
+                        name = "添加轮播图区块",
                         value = """
                         {
-                            "title": "分类区块",
-                            "type": "CATEGORY",
+                            "title": "轮播图区块",
+                            "type": "BANNER",
                             "config": {
                                "horizontalPadding": 12,
                                "verticalPadding": 12,
@@ -419,5 +419,29 @@ public class PageLayoutAdminController {
     @DeleteMapping("/{id}/blocks/{blockId}/data/{dataId}")
     public PageLayout removeBlockData(@PathVariable String id, @PathVariable String blockId, @PathVariable String dataId) {
         return pageLayoutService.removeBlockData(id, blockId, dataId);
+    }
+
+    @Operation(summary = "向上移动区块数据一位")
+    @PostMapping("/{id}/blocks/{blockId}/data/{dataId}/move-up")
+    public PageLayout moveBlockDataUp(@PathVariable String id, @PathVariable String blockId, @PathVariable String dataId) {
+        return pageLayoutService.moveBlockDataUp(id, blockId, dataId);
+    }
+
+    @Operation(summary = "向下移动区块数据一位")
+    @PostMapping("/{id}/blocks/{blockId}/data/{dataId}/move-down")
+    public PageLayout moveBlockDataDown(@PathVariable String id, @PathVariable String blockId, @PathVariable String dataId) {
+        return pageLayoutService.moveBlockDataDown(id, blockId, dataId);
+    }
+
+    @Operation(summary = "移动区块数据到顶部")
+    @PostMapping("/{id}/blocks/{blockId}/data/{dataId}/move-top")
+    public PageLayout moveBlockDataTop(@PathVariable String id, @PathVariable String blockId, @PathVariable String dataId) {
+        return pageLayoutService.moveBlockDataTop(id, blockId, dataId);
+    }
+
+    @Operation(summary = "移动区块数据到底部")
+    @PostMapping("/{id}/blocks/{blockId}/data/{dataId}/move-bottom")
+    public PageLayout moveBlockDataBottom(@PathVariable String id, @PathVariable String blockId, @PathVariable String dataId) {
+        return pageLayoutService.moveBlockDataBottom(id, blockId, dataId);
     }
 }

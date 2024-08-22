@@ -37,5 +37,39 @@ public class PageBlock implements Comparable<PageBlock>, Serializable {
     public int compareTo(PageBlock o) {
         return this.sort.compareTo(o.sort);
     }
+
+    public void moveDataUp(String dataId) {
+        PageBlockData current = this.data.stream().filter(d -> d.getId().equals(dataId)).findFirst().orElse(null);
+        PageBlockData prevData = this.data.stream().filter(d -> d.getSort() < current.getSort()).max(PageBlockData::compareTo).orElse(null);
+        if (prevData != null) {
+            int sort = current.getSort();
+            current.setSort(prevData.getSort());
+            prevData.setSort(sort);
+        }
+    }
+
+    public void moveDataDown(String dataId) {
+        PageBlockData current = this.data.stream().filter(d -> d.getId().equals(dataId)).findFirst().orElse(null);
+        PageBlockData nextData = this.data.stream().filter(d -> d.getSort() > current.getSort()).min(PageBlockData::compareTo).orElse(null);
+        if (nextData != null) {
+            int sort = current.getSort();
+            current.setSort(nextData.getSort());
+            nextData.setSort(sort);
+        }
+    }
+
+    public void moveDataTop(String dataId) {
+        PageBlockData current = this.data.stream().filter(d -> d.getId().equals(dataId)).findFirst().orElse(null);
+        int sort = current.getSort();
+        current.setSort(data.first().getSort() - 1);
+        data.stream().filter(d -> d.getSort() < sort).forEach(d -> d.setSort(d.getSort() + 1));
+    }
+
+    public void moveDataBottom(String dataId) {
+        PageBlockData current = this.data.stream().filter(d -> d.getId().equals(dataId)).findFirst().orElse(null);
+        int sort = current.getSort();
+        current.setSort(data.last().getSort() + 1);
+        data.stream().filter(d -> d.getSort() > sort).forEach(d -> d.setSort(d.getSort() - 1));
+    }
 }
 
