@@ -42,6 +42,9 @@ public class BlockConfig implements Serializable {
     @Schema(description = "区块的背景颜色", example = "#FFFFFF")
     @Pattern(regexp = Constants.HEX_COLOR_REGEX, message = "必须是合法的颜色值")
     private String backgroundColor;
+    @Schema(description = "区块的背景图片", example = "https://picsum.photos/375/120")
+    @Pattern(regexp = Constants.URL_REGEX, message = "必须是合法的 URL")
+    private String backgroundImage;
     @Schema(description = "区块的边框颜色", example = "#FFFFFF")
     @Pattern(regexp = Constants.HEX_COLOR_REGEX, message = "必须是合法的颜色值")
     private String borderColor;
@@ -49,5 +52,9 @@ public class BlockConfig implements Serializable {
     @Min(value = 0, message = "必须大于等于 0")
     @Max(value = 48, message = "必须小于等于 48")
     private Double borderWidth;
+    @Schema(description = "区块的边框圆角", example = "12.0")
+    @Min(value = 0, message = "必须大于等于 0")
+    @Max(value = 48, message = "必须小于等于 48")
+    private Double borderRadius;
 }
 

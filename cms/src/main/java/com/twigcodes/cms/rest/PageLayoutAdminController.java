@@ -1,5 +1,6 @@
 package com.twigcodes.cms.rest;
 
+import com.twigcodes.cms.models.BlockData;
 import com.twigcodes.cms.models.PageBlock;
 import com.twigcodes.cms.models.PageBlockData;
 import com.twigcodes.cms.models.PageLayout;
@@ -59,7 +60,35 @@ public class PageLayoutAdminController {
 
     @Operation(summary = "创建页面布局")
     @PostMapping("")
-    public PageLayout create(@Valid @RequestBody CreateOrUpdatePageLayout createPageLayout) {
+    public PageLayout create(
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "用户信息",
+            required = true,
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CreateOrUpdatePageLayout.class),
+                examples = {
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "创建页面布局",
+                        value = """
+                        {
+                            "title": "首页春季房交会活动",
+                            "platform": "APP",
+                            "targetPage": "HOME",
+                            "config": {
+                                "baselineScreenWidth": 375,
+                                "horizontalPadding": 12,
+                                "verticalPadding": 12,
+                                "backgroundColor": "#FFFFFF",
+                                "backgroundImage": "https://picsum.photos/375/600"
+                            }
+                        }
+                        """
+                    )
+                }
+            )
+        )
+        @Valid @RequestBody CreateOrUpdatePageLayout createPageLayout) {
         return pageLayoutService.create(createPageLayout);
     }
 
@@ -95,7 +124,95 @@ public class PageLayoutAdminController {
 
     @Operation(summary = "添加区块")
     @PostMapping("/{id}/blocks")
-    public PageLayout addBlock(@PathVariable String id, @Valid @RequestBody CreatePageBlock createPageBlock) {
+    public PageLayout addBlock(
+        @PathVariable String id,
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "用户信息",
+            required = true,
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CreatePageBlock.class),
+                examples = {
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "添加图片区块",
+                        value = """
+                        {
+                            "title": "图片行区块",
+                            "type": "IMAGE_ROW",
+                            "config": {
+                               "horizontalPadding": 12,
+                               "verticalPadding": 12,
+                               "horizontalSpacing": 12,
+                               "verticalSpacing": 12,
+                               "blockHeight": 120,
+                               "backgroundColor": "#FFFFFF",
+                               "borderColor": "#FFFFFF",
+                               "borderWidth": 1
+                            }
+                        }
+                        """
+                    ),
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "添加房源区块",
+                        value = """
+                        {
+                            "title": "房源区块",
+                            "type": "HOUSE_ROW",
+                            "config": {
+                               "horizontalPadding": 12,
+                               "verticalPadding": 12,
+                               "horizontalSpacing": 12,
+                               "verticalSpacing": 12,
+                               "blockHeight": 120,
+                               "backgroundColor": "#FFFFFF",
+                               "borderColor": "#FFFFFF",
+                               "borderWidth": 1
+                            }
+                        }
+                        """
+                    ),
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "添加分类区块",
+                        value = """
+                        {
+                            "title": "分类区块",
+                            "type": "CATEGORY",
+                            "config": {
+                               "horizontalPadding": 12,
+                               "verticalPadding": 12,
+                               "horizontalSpacing": 12,
+                               "verticalSpacing": 12,
+                               "blockHeight": 120,
+                               "backgroundColor": "#FFFFFF",
+                               "borderColor": "#FFFFFF",
+                               "borderWidth": 1
+                            }
+                        }
+                        """
+                    ),
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "添加瀑布流区块",
+                        value = """
+                        {
+                            "title": "瀑布流区块",
+                            "type": "WATERFALL",
+                            "config": {
+                               "horizontalPadding": 12,
+                               "verticalPadding": 12,
+                               "horizontalSpacing": 12,
+                               "verticalSpacing": 12,
+                               "blockHeight": 120,
+                               "backgroundColor": "#FFFFFF",
+                               "borderColor": "#FFFFFF",
+                               "borderWidth": 1
+                            }
+                        }
+                        """
+                    ),
+                }
+            )
+        )
+        @Valid @RequestBody CreatePageBlock createPageBlock) {
         val block = PageBlock.builder()
             .title(createPageBlock.title())
             .type(createPageBlock.type())
@@ -158,13 +275,143 @@ public class PageLayoutAdminController {
 
     @Operation(summary = "添加区块数据")
     @PostMapping("/{id}/blocks/{blockId}/data")
-    public PageLayout addBlockData(@PathVariable String id, @PathVariable String blockId, @Valid @RequestBody PageBlockData data) {
+    public PageLayout addBlockData(
+        @PathVariable String id, @PathVariable String blockId,
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "用户信息",
+            required = true,
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = BlockData.class),
+                examples = {
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "图片区块数据",
+                        value = """
+                        {
+                            "image": "https://picsum.photos/200/300",
+                            "link": {
+                                "type": "URL",
+                                "value": "https://www.baidu.com"
+                            },
+                            "title": "图片标题"
+                        }
+                        """
+                    ),
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "房源数据",
+                        value = """
+                        {
+                            "houseId": 1,
+                            "title": "房源标题",
+                            "cover": "https://picsum.photos/200/300",
+                            "description": "建面125-185m² | 三四房",
+                            "sellingPoints": [
+                                {
+                                    "text": "卖点标签",
+                                    "color": "#FF0000",
+                                    "backgroundColor": "#FFFFFF"
+                                }
+                            ],
+                            "promotionTags": [
+                                "https://picsum.photos/32/16"
+                            ],
+                            "totalPrice": "100万",
+                            "unitPrice": "10000元/平",
+                            "recommendation": [
+                                {
+                                    "text": "推荐理由"
+                                }
+                            ]
+                        }
+                        """
+                    ),
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "分类区块数据",
+                        value = """
+                        {
+                            "categoryCode": "categoryCode"
+                        }
+                        """
+                    ),
+                }
+            )
+        )
+        @Valid @RequestBody BlockData createData) {
+        val data = PageBlockData.builder()
+            .content(createData)
+            .build();
         return pageLayoutService.addBlockData(id, blockId, data);
     }
 
     @Operation(summary = "更新区块数据")
     @PutMapping("/{id}/blocks/{blockId}/data/{dataId}")
-    public PageLayout updateBlockData(@PathVariable String id, @PathVariable String blockId, @PathVariable String dataId, @Valid @RequestBody PageBlockData data) {
+    public PageLayout updateBlockData(
+        @PathVariable String id,
+        @PathVariable String blockId,
+        @PathVariable String dataId,
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "用户信息",
+            required = true,
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = BlockData.class),
+                examples = {
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "图片区块数据",
+                        value = """
+                        {
+                            "image": "https://picsum.photos/200/300",
+                            "link": {
+                                "type": "URL",
+                                "value": "https://www.baidu.com"
+                            },
+                            "title": "图片标题"
+                        }
+                        """
+                    ),
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "房源数据",
+                        value = """
+                        {
+                            "houseId": 1,
+                            "title": "房源标题",
+                            "cover": "https://picsum.photos/200/300",
+                            "description": "建面125-185m² | 三四房",
+                            "sellingPoints": [
+                                {
+                                    "text": "卖点标签",
+                                    "color": "#FF0000",
+                                    "backgroundColor": "#FFFFFF"
+                                }
+                            ],
+                            "promotionTags": [
+                                "https://picsum.photos/32/16"
+                            ],
+                            "totalPrice": "100万",
+                            "unitPrice": "10000元/平",
+                            "recommendation": [
+                                {
+                                    "text": "推荐理由"
+                                }
+                            ]
+                        }
+                        """
+                    ),
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "分类区块数据",
+                        value = """
+                        {
+                            "categoryCode": "categoryCode"
+                        }
+                        """
+                    ),
+                }
+            )
+        )
+        @Valid @RequestBody BlockData updateData) {
+        val data = PageBlockData.builder()
+            .content(updateData)
+            .build();
         return pageLayoutService.updateBlockData(id, blockId, dataId, data);
     }
 

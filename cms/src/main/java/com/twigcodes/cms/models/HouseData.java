@@ -1,6 +1,7 @@
 package com.twigcodes.cms.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,8 +11,32 @@ import lombok.extern.jackson.Jacksonized;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "图片链接")
-@Jacksonized
+@Schema(description = "房源数据", example = """
+{
+    "houseId": 1,
+    "title": "房源标题",
+    "cover": "https://picsum.photos/200/300",
+    "description": "建面125-185m² | 三四房",
+    "sellingPoints": [
+        {
+            "text": "卖点标签",
+            "color": "#FF0000",
+            "backgroundColor": "#FFFFFF"
+        }
+    ],
+    "promotionTags": [
+        "https://picsum.photos/32/16"
+    ],
+    "totalPrice": "100万",
+    "unitPrice": "10000元/平",
+    "recommendation": [
+        {
+            "text": "推荐理由"
+        }
+    ]
+}
+""")
+@JsonDeserialize(as = HouseData.class)
 @Getter
 @Setter
 @Builder

@@ -1,8 +1,7 @@
 package com.twigcodes.cms.services;
 
-import com.twigcodes.cms.models.PageBlock;
-import com.twigcodes.cms.models.PageBlockData;
-import com.twigcodes.cms.models.PageLayout;
+import com.twigcodes.cms.models.*;
+import com.twigcodes.cms.models.enumeration.BlockType;
 import com.twigcodes.cms.models.enumeration.PageStatus;
 import com.twigcodes.cms.models.vm.CreateOrUpdatePageLayout;
 import com.twigcodes.cms.models.vm.QueryPageLayout;
@@ -74,6 +73,7 @@ public class PageLayoutAdminService {
             .status(PageStatus.DRAFT)
             .targetPage(createPageLayout.targetPage())
             .platform(createPageLayout.platform())
+            .config(createPageLayout.config())
             .build();
         return pageLayoutRepository.save(pageLayout);
     }
@@ -206,6 +206,7 @@ public class PageLayoutAdminService {
                     .filter(b -> b.getId().equals(blockId))
                     .findFirst()
                     .ifPresent(b -> {
+                        validateData(b.getType(), data);
                         data.setSort(b.getData().size() + 1);
                         b.getData().add(data);
                     });
@@ -213,6 +214,42 @@ public class PageLayoutAdminService {
             })
             .orElseThrow();
     }
+
+    private void validateData(BlockType type, PageBlockData data) {
+        if (data == null || data.getContent() == null) {
+            throw new IllegalArgumentException("Data or content cannot be null");
+        }
+
+        switch (type) {
+            case BANNER:
+                if (!(data.getContent() instanceof ImageData)) {
+                    throw new IllegalArgumentException("Invalid data type for BANNER. Expected ImageData.");
+                }
+                // Additional validation for ImageData can be added here
+                break;
+            case IMAGE_ROW:
+                if (!(data.getContent() instanceof ImageData)) {
+                    throw new IllegalArgumentException("Invalid data type for IMAGE_ROW. Expected ImageData.");
+                }
+                // Additional validation for CategoryData can be added here
+                break;
+            case HOUSE_ROW:
+                if (!(data.getContent() instanceof HouseData)) {
+                    throw new IllegalArgumentException("Invalid data type for HOUSE. Expected HouseData.");
+                }
+                // Additional validation for HouseData can be added here
+                break;
+            case WATERFALL:
+                if (!(data.getContent() instanceof CategoryData)) {
+                    throw new IllegalArgumentException("Invalid data type for WATERFALL. Expected CategoryData.");
+                }
+                // Additional validation for HouseData can be added here
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported BlockType: " + type);
+        }
+    }
+
 
     public PageLayout updateBlockData(String id, String blockId, String dataId, PageBlockData data) {
         return pageLayoutRepository.findById(id)

@@ -3,7 +3,16 @@ package com.twigcodes.cms.models;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(description = "图片区块数据")
+@Schema(description = "图片区块数据", example = """
+{
+    "image": "https://picsum.photos/200/300",
+    "link": {
+        "type": "url",
+        "value": "https://www.baidu.com"
+    },
+    "title": "图片标题"
+}
+""")
 @JsonDeserialize(as = ImageData.class)
 public record ImageData(
     @Schema(description = "图片地址", example = "https://picsum.photos/200/300")

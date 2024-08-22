@@ -6,8 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Schema(description = "分类区块数据")
-@JsonDeserialize(as = ImageData.class)
+@Schema(description = "分类区块数据", example = """
+{
+    "categoryCode": "categoryCode"
+}
+""")
+@JsonDeserialize(as = CategoryData.class)
 @Builder
 @Getter
 @Setter
