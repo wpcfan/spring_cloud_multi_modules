@@ -33,11 +33,11 @@ public class PageLayoutAdminController {
     @Operation(summary = "查询页面布局")
     @GetMapping("")
     public Page<PageLayout> search(
-        @Parameter @RequestParam String title,
-        @RequestParam PageStatus status,
-        @RequestParam TargetPage targetPage,
-        @RequestParam Platform platform,
-        @RequestParam BlockType blockType,
+        @Parameter(description = "页面标题", example = "房交会首页") @RequestParam(required = false) String title,
+        @Parameter(description = "页面状态") @RequestParam(required = false) PageStatus status,
+        @Parameter(description = "生效目标") @RequestParam(required = false) TargetPage targetPage,
+        @Parameter(description = "平台") @RequestParam(required = false) Platform platform,
+        @Parameter(description = "区块类型") @RequestParam(required = false) BlockType blockType,
         @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate startTimeFrom,
         @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate startTimeTo,
         @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate endTimeFrom,

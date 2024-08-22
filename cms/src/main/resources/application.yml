@@ -1,3 +1,4 @@
+
 server:
   port: 8800
 spring:
@@ -8,6 +9,19 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/fxr_cms
+  jackson:
+    defaultPropertyInclusion: NON_NULL
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+      READ_ENUMS_USING_TO_STRING: true
+    mapper:
+      SORT_PROPERTIES_ALPHABETICALLY: true
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+      WRITE_NULL_MAP_VALUES: false
+      WRITE_ENUMS_USING_TO_STRING: true
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 eureka:
   instance:
     hostname: localhost
@@ -16,3 +30,6 @@ eureka:
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+cms:
+  date-format: yyyy-MM-dd
+  date-time-format: yyyy-MM-dd HH:mm:ss
