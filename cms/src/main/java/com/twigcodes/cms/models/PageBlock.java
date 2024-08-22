@@ -26,10 +26,15 @@ public class PageBlock implements Comparable<PageBlock>, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Builder.Default
+    @Schema(description = "区块ID")
     private String id = UUID.randomUUID().toString();
+    @Schema(description = "区块标题")
     private String title;
+    @Schema(description = "区块类型")
     private BlockType type;
+    @Schema(description = "区块排序")
     private Integer sort;
+    @Schema(description = "区块配置")
     private BlockConfig config;
     @Builder.Default
     private SortedSet<PageBlockData> data = new TreeSet<>();

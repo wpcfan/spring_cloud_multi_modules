@@ -94,7 +94,36 @@ public class PageLayoutAdminController {
 
     @Operation(summary = "更新页面布局")
     @PutMapping("/{id}")
-    public PageLayout update(@PathVariable String id, @Valid @RequestBody CreateOrUpdatePageLayout updatePageLayout) {
+    public PageLayout update(
+        @PathVariable String id,
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "用户信息",
+            required = true,
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CreateOrUpdatePageLayout.class),
+                examples = {
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "更新页面布局",
+                        value = """
+                        {
+                            "title": "首页秋季房交会活动",
+                            "platform": "APP",
+                            "targetPage": "HOME",
+                            "config": {
+                                "baselineScreenWidth": 400,
+                                "horizontalPadding": 16,
+                                "verticalPadding": 16,
+                                "backgroundColor": "#FFFFFF",
+                                "backgroundImage": "https://picsum.photos/375/600"
+                            }
+                        }
+                        """
+                    )
+                }
+            )
+        )
+        @Valid @RequestBody CreateOrUpdatePageLayout updatePageLayout) {
         return pageLayoutService.update(id, updatePageLayout);
     }
 
@@ -106,7 +135,28 @@ public class PageLayoutAdminController {
 
     @Operation(summary = "发布页面布局")
     @PostMapping("/{id}/publish")
-    public PageLayout publish(@PathVariable String id, @Valid @RequestBody PublishPageLayout publishPageLayout) {
+    public PageLayout publish(
+        @PathVariable String id,
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "用户信息",
+            required = true,
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = PublishPageLayout.class),
+                examples = {
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "发布页面布局",
+                        value = """
+                        {
+                            "startTime": "2032-09-01 00:00:00",
+                            "endTime": "2032-12-30 23:59:59"
+                        }
+                        """
+                    )
+                }
+            )
+        )
+        @Valid @RequestBody PublishPageLayout publishPageLayout) {
         return pageLayoutService.publish(id, publishPageLayout.startTime(), publishPageLayout.endTime());
     }
 

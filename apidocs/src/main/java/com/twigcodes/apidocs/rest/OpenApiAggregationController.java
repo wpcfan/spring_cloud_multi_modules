@@ -20,9 +20,8 @@ public class OpenApiAggregationController {
         WebClient webClient = WebClient.create();
 
         List<String> services = Arrays.asList(
-            "http://subsystem1/v3/api-docs",
-            "http://subsystem2/v3/api-docs",
-            "http://subsystem3/v3/api-docs"
+            "http://cms/v3/api-docs",
+            "http://auth-server/v3/api-docs"
         );
 
         return Flux.fromIterable(services)

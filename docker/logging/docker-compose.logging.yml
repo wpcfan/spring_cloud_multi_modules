@@ -1,0 +1,17 @@
+networks:
+  logging_network:
+    driver: bridge
+
+services:
+  fluentbit:
+    image: fluent/fluent-bit:latest
+    container_name: fluentbit
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    volumes:
+      - ./fluentbit:/fluentbit
+      - ./fluentbit/log:/var/log/fluent
+    command: /fluent-bit/bin/fluent-bit -c /fluentbit/fluent-bit.conf
+    networks:
+      - logging_network

@@ -42,9 +42,9 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=admin
       - JAVA_OPTS_KC_HEAP="-XX:MaxHeapFreeRatio=30 -XX:MaxRAMPercentage=65"
     volumes:
-      - ./keycloak/themes:/opt/keycloak/themes
-      - ./keycloak/realms:/opt/keycloak/realms
-      - ./keycloak/import:/opt/keycloak/data/import
+      - ./themes:/opt/keycloak/themes
+      - ./realms:/opt/keycloak/realms
+      - ./import:/opt/keycloak/data/import
       - ./wait-for-it.sh:/wait-for-it.sh
     depends_on:
       mariadb:

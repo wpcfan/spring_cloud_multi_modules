@@ -23,8 +23,11 @@ public class PageBlockData implements Comparable<PageBlockData>, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Builder.Default
+    @Schema(description = "区块数据ID")
     private String id = UUID.randomUUID().toString();
+    @Schema(description = "排序")
     private Integer sort;
+    @Schema(description = "区块数据")
     private BlockData content;
 
     @Override
