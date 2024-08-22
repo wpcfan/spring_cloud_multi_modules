@@ -121,7 +121,7 @@ public class PageLayoutAdminService {
                     .filter(b -> b.getId().equals(blockId))
                     .findFirst()
                     .ifPresent(b -> {
-                        b.setType(block.getType());
+                        b.setTitle(block.getTitle());
                         b.setConfig(block.getConfig());
                     });
                 return pageLayoutRepository.save(existingPageLayout);

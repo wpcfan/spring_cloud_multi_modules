@@ -7,12 +7,11 @@ import com.twigcodes.cms.models.enumeration.BlockType;
 import com.twigcodes.cms.models.enumeration.PageStatus;
 import com.twigcodes.cms.models.enumeration.Platform;
 import com.twigcodes.cms.models.enumeration.TargetPage;
-import com.twigcodes.cms.models.vm.CreateOrUpdatePageLayout;
-import com.twigcodes.cms.models.vm.PublishPageLayout;
-import com.twigcodes.cms.models.vm.QueryPageLayout;
+import com.twigcodes.cms.models.vm.*;
 import com.twigcodes.cms.services.PageLayoutAdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springdoc.core.annotations.ParameterObject;
@@ -33,15 +32,15 @@ public class PageLayoutAdminController {
     @Operation(summary = "查询页面布局")
     @GetMapping("")
     public Page<PageLayout> search(
-        @Parameter(description = "页面标题", example = "房交会首页") @RequestParam(required = false) String title,
-        @Parameter(description = "页面状态") @RequestParam(required = false) PageStatus status,
+        @Parameter(description = "页面标题") @RequestParam(required = false) String title,
+        @Parameter(description = "页面状态") @RequestParam(required = false, name = "status") PageStatus status,
         @Parameter(description = "生效目标") @RequestParam(required = false) TargetPage targetPage,
         @Parameter(description = "平台") @RequestParam(required = false) Platform platform,
         @Parameter(description = "区块类型") @RequestParam(required = false) BlockType blockType,
-        @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate startTimeFrom,
-        @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate startTimeTo,
-        @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate endTimeFrom,
-        @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate endTimeTo,
+        @Parameter(description = "生效时间查询时间段起点") @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate startTimeFrom,
+        @Parameter(description = "生效时间查询时间段终点") @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate startTimeTo,
+        @Parameter(description = "失效时间查询时间段起点") @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate endTimeFrom,
+        @Parameter(description = "失效时间查询时间段终点") @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) LocalDate endTimeTo,
         @ParameterObject Pageable pageable
     ) {
         val queryPageLayout = QueryPageLayout.builder()
@@ -60,13 +59,13 @@ public class PageLayoutAdminController {
 
     @Operation(summary = "创建页面布局")
     @PostMapping("")
-    public PageLayout create(@RequestBody CreateOrUpdatePageLayout createPageLayout) {
+    public PageLayout create(@Valid @RequestBody CreateOrUpdatePageLayout createPageLayout) {
         return pageLayoutService.create(createPageLayout);
     }
 
     @Operation(summary = "更新页面布局")
     @PutMapping("/{id}")
-    public PageLayout update(@PathVariable String id, @RequestBody CreateOrUpdatePageLayout updatePageLayout) {
+    public PageLayout update(@PathVariable String id, @Valid @RequestBody CreateOrUpdatePageLayout updatePageLayout) {
         return pageLayoutService.update(id, updatePageLayout);
     }
 
@@ -78,7 +77,7 @@ public class PageLayoutAdminController {
 
     @Operation(summary = "发布页面布局")
     @PostMapping("/{id}/publish")
-    public PageLayout publish(@PathVariable String id, @RequestBody PublishPageLayout publishPageLayout) {
+    public PageLayout publish(@PathVariable String id, @Valid @RequestBody PublishPageLayout publishPageLayout) {
         return pageLayoutService.publish(id, publishPageLayout.startTime(), publishPageLayout.endTime());
     }
 
@@ -96,7 +95,12 @@ public class PageLayoutAdminController {
 
     @Operation(summary = "添加区块")
     @PostMapping("/{id}/blocks")
-    public PageLayout addBlock(@PathVariable String id, @RequestBody PageBlock block) {
+    public PageLayout addBlock(@PathVariable String id, @Valid @RequestBody CreatePageBlock createPageBlock) {
+        val block = PageBlock.builder()
+            .title(createPageBlock.title())
+            .type(createPageBlock.type())
+            .config(createPageBlock.config())
+            .build();
         return pageLayoutService.addBlock(id, block);
     }
 
@@ -108,7 +112,11 @@ public class PageLayoutAdminController {
 
     @Operation(summary = "更新区块")
     @PutMapping("/{id}/blocks/{blockId}")
-    public PageLayout updateBlock(@PathVariable String id, @PathVariable String blockId, @RequestBody PageBlock block) {
+    public PageLayout updateBlock(@PathVariable String id, @PathVariable String blockId, @Valid @RequestBody UpdatePageBlock updatePageBlock) {
+        val block = PageBlock.builder()
+            .title(updatePageBlock.title())
+            .config(updatePageBlock.config())
+            .build();
         return pageLayoutService.updateBlock(id, blockId, block);
     }
 
@@ -150,13 +158,13 @@ public class PageLayoutAdminController {
 
     @Operation(summary = "添加区块数据")
     @PostMapping("/{id}/blocks/{blockId}/data")
-    public PageLayout addBlockData(@PathVariable String id, @PathVariable String blockId, @RequestBody PageBlockData data) {
+    public PageLayout addBlockData(@PathVariable String id, @PathVariable String blockId, @Valid @RequestBody PageBlockData data) {
         return pageLayoutService.addBlockData(id, blockId, data);
     }
 
     @Operation(summary = "更新区块数据")
     @PutMapping("/{id}/blocks/{blockId}/data/{dataId}")
-    public PageLayout updateBlockData(@PathVariable String id, @PathVariable String blockId, @PathVariable String dataId, @RequestBody PageBlockData data) {
+    public PageLayout updateBlockData(@PathVariable String id, @PathVariable String blockId, @PathVariable String dataId, @Valid @RequestBody PageBlockData data) {
         return pageLayoutService.updateBlockData(id, blockId, dataId, data);
     }
 

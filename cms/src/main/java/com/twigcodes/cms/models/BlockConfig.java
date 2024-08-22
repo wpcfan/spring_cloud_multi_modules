@@ -40,10 +40,10 @@ public class BlockConfig implements Serializable {
     @Max(value = 1000, message = "必须小于等于 1000")
     private Double blockHeight;
     @Schema(description = "区块的背景颜色", example = "#FFFFFF")
-    @Pattern(regexp = Constants.HEX_COLOR_REGEX_WITH_HASH, message = "必须是合法的颜色值")
+    @Pattern(regexp = Constants.HEX_COLOR_REGEX, message = "必须是合法的颜色值")
     private String backgroundColor;
     @Schema(description = "区块的边框颜色", example = "#FFFFFF")
-    @Pattern(regexp = Constants.HEX_COLOR_REGEX_WITH_HASH, message = "必须是合法的颜色值")
+    @Pattern(regexp = Constants.HEX_COLOR_REGEX, message = "必须是合法的颜色值")
     private String borderColor;
     @Schema(description = "区块的边框宽度", example = "1.0")
     @Min(value = 0, message = "必须大于等于 0")

@@ -40,7 +40,7 @@ public class PageLayout implements Serializable {
     @Builder.Default
     private PageStatus status = PageStatus.DRAFT;
     @Builder.Default
-    private TargetPage targetPage = TargetPage.Home;
+    private TargetPage targetPage = TargetPage.HOME;
     @Builder.Default
     private Platform platform = Platform.APP;
     @Builder.Default

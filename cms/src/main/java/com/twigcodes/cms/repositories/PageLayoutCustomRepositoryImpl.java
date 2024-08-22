@@ -50,7 +50,6 @@ public class PageLayoutCustomRepositoryImpl implements PageLayoutCustomRepositor
         return mongoTemplate.find(query, PageLayout.class);
     }
 
-
     @NotNull
     private static Query buildQuery(QueryPageLayout queryPageLayout) {
         Query query = new Query();

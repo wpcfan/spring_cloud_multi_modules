@@ -37,7 +37,7 @@ public class PageConfig implements Serializable {
     private Double verticalPadding;
 
     @Schema(description = "页面的背景颜色", example = "#FFFFFF")
-    @Pattern(regexp = Constants.HEX_COLOR_REGEX_WITH_HASH, message = "必须是合法的颜色值")
+    @Pattern(regexp = Constants.HEX_COLOR_REGEX, message = "必须是合法的颜色值")
     private String backgroundColor;
 
     @Schema(description = "页面的背景图片", example = "https://picsum.photos/375/600")

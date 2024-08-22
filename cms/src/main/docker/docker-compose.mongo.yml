@@ -11,6 +11,17 @@ services:
       - MONGO_INITDB_DATABASE=fxr_cms
     networks:
       - fxr
+  mongoku:
+    image: huggingface/mongoku
+    container_name: mongoku
+    depends_on:
+      - mongo
+    ports:
+      - 3100:3100
+    environment:
+      - MONGOKU_DEFAULT_HOST=mongodb://mongo:27017/fxr_cms
+    networks:
+      - fxr
 
 volumes:
   mongo_data: {}
