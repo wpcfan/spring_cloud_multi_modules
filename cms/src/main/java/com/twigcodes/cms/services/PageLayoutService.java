@@ -3,7 +3,6 @@ package com.twigcodes.cms.services;
 import com.twigcodes.cms.models.PageLayout;
 import com.twigcodes.cms.models.enumeration.Platform;
 import com.twigcodes.cms.models.enumeration.TargetPage;
-import com.twigcodes.cms.models.vm.QueryPageLayout;
 import com.twigcodes.cms.repositories.PageLayoutRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

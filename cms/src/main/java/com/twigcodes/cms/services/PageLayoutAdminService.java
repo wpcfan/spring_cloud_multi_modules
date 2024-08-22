@@ -4,6 +4,7 @@ import com.twigcodes.cms.models.PageBlock;
 import com.twigcodes.cms.models.PageBlockData;
 import com.twigcodes.cms.models.PageLayout;
 import com.twigcodes.cms.models.enumeration.PageStatus;
+import com.twigcodes.cms.models.vm.CreateOrUpdatePageLayout;
 import com.twigcodes.cms.models.vm.QueryPageLayout;
 import com.twigcodes.cms.repositories.PageLayoutRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,18 +24,12 @@ public class PageLayoutAdminService {
         pageLayoutRepository.deleteById(id);
     }
 
-    public PageLayout update(String id, PageLayout pageLayout) {
+    public PageLayout update(String id, CreateOrUpdatePageLayout updatePageLayout) {
         return pageLayoutRepository.findById(id)
             .map(existingPageLayout -> {
-                existingPageLayout.setTitle(pageLayout.getTitle());
-                existingPageLayout.setStartTime(pageLayout.getStartTime());
-                existingPageLayout.setEndTime(pageLayout.getEndTime());
-                existingPageLayout.setStatus(pageLayout.getStatus());
-                existingPageLayout.setTargetPage(pageLayout.getTargetPage());
-                existingPageLayout.setPlatform(pageLayout.getPlatform());
-                if (pageLayout.getBlocks() != null && !pageLayout.getBlocks().isEmpty()) {
-                    existingPageLayout.setBlocks(pageLayout.getBlocks());
-                }
+                existingPageLayout.setTitle(updatePageLayout.title());
+                existingPageLayout.setTargetPage(updatePageLayout.targetPage());
+                existingPageLayout.setPlatform(updatePageLayout.platform());
                 return pageLayoutRepository.save(existingPageLayout);
             })
             .orElseThrow();
@@ -73,7 +68,13 @@ public class PageLayoutAdminService {
             .orElseThrow();
     }
 
-    public PageLayout create(PageLayout pageLayout) {
+    public PageLayout create(CreateOrUpdatePageLayout createPageLayout) {
+        val pageLayout = PageLayout.builder()
+            .title(createPageLayout.title())
+            .status(PageStatus.DRAFT)
+            .targetPage(createPageLayout.targetPage())
+            .platform(createPageLayout.platform())
+            .build();
         return pageLayoutRepository.save(pageLayout);
     }
 
