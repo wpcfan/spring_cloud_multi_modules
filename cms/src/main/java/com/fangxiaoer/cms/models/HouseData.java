@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.springframework.data.annotation.TypeAlias;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@TypeAlias("house")
 public class HouseData implements BlockData {
     @Schema(description = "房源 ID", example = "1")
     private Long houseId;
