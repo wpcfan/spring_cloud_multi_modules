@@ -3,8 +3,6 @@ server:
 spring:
   application:
     name: eureka-server
-  banner:
-    location: classpath:banner.txt
 eureka:
   instance:
     hostname: localhost

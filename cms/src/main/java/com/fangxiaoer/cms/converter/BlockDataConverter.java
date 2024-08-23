@@ -12,8 +12,8 @@ public class BlockDataConverter implements Converter<Document, BlockData> {
     public BlockData convert(Document source) {
         return switch (source.getString("_class")) {
             case "house" -> HouseData.builder()
-                    .houseId(source.getLong("houseId"))
-                    .title(source.getString("title"))
+                .houseId(source.getLong("houseId"))
+                .title(source.getString("title"))
                 .cover(source.getString("cover"))
                 .description(source.getString("description"))
                 .totalPrice(source.getString("totalPrice"))

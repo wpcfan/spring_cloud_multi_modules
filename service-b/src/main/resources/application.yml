@@ -3,8 +3,6 @@ server:
 spring:
   application:
     name: service-b
-  banner:
-    location: classpath:banner.txt
   security:
     oauth2:
       resourceserver:

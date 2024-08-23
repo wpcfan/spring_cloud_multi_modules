@@ -35,5 +35,3 @@ spring:
         git:
           uri: https://gitee.com/peng.wong/service-configurations.git
           basedir: spring_cloud_multi_modules
-  banner:
-    location: classpath:banner.txt

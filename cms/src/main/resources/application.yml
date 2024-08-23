@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: cms
-  banner:
-    location: classpath:banner.txt
   data:
     mongodb:
       uri: mongodb://localhost:27017/fxr_cms

@@ -3,8 +3,6 @@ server:
 spring:
   application:
     name: apidocs
-  banner:
-    location: classpath:banner.txt
 eureka:
   instance:
     hostname: localhost

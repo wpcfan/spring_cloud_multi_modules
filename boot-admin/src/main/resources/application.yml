@@ -1,8 +1,6 @@
 spring:
   application:
     name: boot-admin
-  banner:
-    location: classpath:banner.txt
   boot:
     admin:
       ui:
