@@ -2,6 +2,7 @@ package com.fangxiaoer.cms.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 @Schema(description = "图片区块数据", example = """
 {
@@ -14,12 +15,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 }
 """)
 @JsonDeserialize(as = ImageData.class)
-public record ImageData(
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ImageData implements BlockData {
     @Schema(description = "图片地址", example = "https://picsum.photos/200/300")
-    String image,
-    @Schema(description = "图片链接")
-    ImageLink link,
+    private String image;
+    @Schema(description = "图片链接", example = "https://www.baidu.com")
+    private ImageLink link;
     @Schema(description = "图片标题", example = "图片标题")
-    String title
-) implements BlockData {
+    private String title;
 }

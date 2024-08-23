@@ -4,6 +4,7 @@ import com.fangxiaoer.cms.models.PageConfig;
 import com.fangxiaoer.cms.models.enumeration.Platform;
 import com.fangxiaoer.cms.models.enumeration.TargetPage;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 
 @Schema(description = "创建或更新页面布局")
@@ -15,7 +16,7 @@ public record CreateOrUpdatePageLayout (
     TargetPage targetPage,
     @Schema(description = "平台", example = "APP")
     Platform platform,
-    @Schema(description = "页面配置")
+    @Valid @Schema(description = "页面配置")
     PageConfig config
 ){
 }
